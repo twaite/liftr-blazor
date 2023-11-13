@@ -1,0 +1,38 @@
+@page "/exercises"
+@inject IDbContextFactory<LiftrContext> DbFactory
+
+<PageTitle>Exercises</PageTitle>
+
+<h1>Exercises</h1>
+
+@foreach (var exercise in exercises)
+{
+  <h3>@exercise.Name</h3>
+}
+
+@code {
+  private bool Loading;
+
+  private List<Exercise> exercises = new List<Exercise>();
+
+  protected override async Task OnInitializedAsync()
+  {
+    if (Loading)
+    {
+      return;
+    }
+
+    Loading = true;
+
+    await LoadExercises();
+  }
+
+  private async Task LoadExercises()
+  {
+    await using var db = DbFactory.CreateDbContext();
+
+    exercises = await db.Exercises.ToListAsync();
+
+    Loading = false;
+  }
+}

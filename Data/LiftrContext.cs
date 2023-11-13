@@ -3,11 +3,18 @@ using Microsoft.EntityFrameworkCore;
 
 public class LiftrContext : DbContext
 {
+  private readonly ILogger<LiftrContext> _logger;
+
   public DbSet<Exercise> Exercises { get; set; }
 
-  // TODO: read config 
-  protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-      => optionsBuilder.UseNpgsql(@"Host=localhost;Username=user;Password=password;Database=liftr_db;Port=5433");
+  // Inject options.
+  // options: The DbContextOptions{ContactContext} for the context.
+  public LiftrContext(DbContextOptions<LiftrContext> options, ILogger<LiftrContext> logger)
+      : base(options)
+  {
+    _logger = logger;
+    _logger.LogDebug("Context created!");
+  }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
@@ -17,4 +24,5 @@ public class LiftrContext : DbContext
 
     modelBuilder.Entity<Exercise>().HasData(exercises);
   }
+
 }

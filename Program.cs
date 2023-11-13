@@ -1,6 +1,11 @@
 using Liftr.Components;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// TODO: read config 
+builder.Services.AddDbContextFactory<LiftrContext>(opt =>
+    opt.UseNpgsql(@"Host=localhost;Username=user;Password=password;Database=liftr_db;Port=5433"));
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
