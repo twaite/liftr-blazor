@@ -3,12 +3,16 @@
 
 <PageTitle>Exercises</PageTitle>
 
-<h1>Exercises</h1>
+<h1 class="text-xl">Exercises</h1>
 
-@foreach (var exercise in exercises)
-{
-  <h3>@exercise.Name</h3>
-}
+<div class="flex flex-col gap-3">
+  @foreach (var exercise in exercises)
+  {
+    <div class="p-3 shadow rounded max-w-md mb-2">
+      <h3>@exercise.Name</h3>
+    </div>
+  }
+</div>
 
 @code {
   private bool Loading;
